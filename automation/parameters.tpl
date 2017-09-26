@@ -3,12 +3,12 @@ my_uid=$(uuidgen | cut -c1-6)
 githubUser=$(git config --get remote.origin.url | cut -d'/' -f4)
 githubBranch=$(git status | sed -n 's/[# ]*On branch \([^ ]\+\)/\1/p')
 
-resource_group=SETNAME-azhpc-${my_uid}
+resource_group=tony-azhpc-${my_uid}
 location="North Central US"
 vmSku=Standard_H16r
 vmssName=az${my_uid}
 computeNodeImage=CentOS-HPC_7.1
-instanceCount=4
+instanceCount=16
 rsaPublicKey=$(cat ~/.ssh/id_rsa.pub)
 
 numberOfNodesToTest="8 16"
@@ -27,15 +27,15 @@ azTenant=
 
 rootLogDir='.'
 
-logToStorage=false
-logStorageAccountName=
-logStorageContainerName=
+logToStorage=true
+logStorageAccountName=ninalogs
+logStorageContainerName=results
 logStoragePath=
-logStorageSasKey=
-cosmos_account=
-cosmos_database=
-cosmos_collection=
-cosmos_key=
+logStorageSasKey="?sv=2016-05-31&si=write&sr=c&sig=6GmwqU6WAP9%2FsAuq5fAMo8kJqW3ZSNsYRoGFUECu728%3D"
+cosmos_account=ninadb
+cosmos_database=Nina
+cosmos_collection=Results
+cosmos_key=$(az keyvault secret show --name cosmoskey --vault-name NinaVault | jq '.value' -r)
 
 # openfoam parameters
 storageAccountName=paedwar
