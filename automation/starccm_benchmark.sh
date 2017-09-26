@@ -1,8 +1,8 @@
-required_envvars numberOfNodesToTest processesPerNode podKey
+ -nrequired_envvars numberOfNodesToTest processesPerNode podKey
 
 function run_benchmark() {
     execute "install_starccm" ssh hpcuser@${public_ip} "./azhpc/install/install_StarCCM_1202.sh $podKey"
-    execute "download_starccm_model" ssh hpcuser@${public_ip} "cd /mnt/resource/scratch axel -q http://azbenchmarkstorage.blob.core.windows.net/cdadapcobenchmarkstorage/LeMans_100M.tgz && tar xzf LeMans_100M.tgz"
+    execute "download_starccm_model" ssh hpcuser@${public_ip} "cd /mnt/resource/scratch axel -n 50 -q http://azbenchmarkstorage.blob.core.windows.net/cdadapcobenchmarkstorage/LeMans_100M.tgz && tar xzf LeMans_100M.tgz"
     execute "create_machinefile" ssh hpcuser@${public_ip} "sed 's/$/:${processesPerNode}/g' bin/hostlist | tee machinefile"
 
     numProcs=$(bc <<< "$instanceCount * $processesPerNode")
