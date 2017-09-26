@@ -3,13 +3,15 @@ LICIP=$1
 HOST=`hostname`
 echo $LICIP,$HOST
 
-sudo yum groupinstall -y "X Window System"
+#sudo yum groupinstall -y "X Window System"
 
 mkdir -p /mnt/resource/scratch/applications
 mkdir -p /mnt/resource/scratch/INSTALLERS
 
 cd /mnt/resource/scratch/INSTALLERS
-wget -q http://azbenchmarkstorage.blob.core.windows.net/cdadapcobenchmarkstorage/STAR-CCM+12.02.010_01_linux-x86_64.tar.gz -O - | tar zx
+sudo yum install -y epel*
+sudo yum install -y axel
+axel -n 50 -q http://azbenchmarkstorage.blob.core.windows.net/cdadapcobenchmarkstorage/STAR-CCM+12.02.010_01_linux-x86_64.tar.gz && tar zxf STAR-CCM+12.02.010_01_linux-x86_64.tar.gz
 
 cd /mnt/resource/scratch/INSTALLERS/starccm+_12.02.010
 
